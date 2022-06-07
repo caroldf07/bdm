@@ -68,7 +68,7 @@ public class OcorrenciaDto {
     }
 
     private List<String[]> criarCsv() {
-        String[] header = {"endereço"};
+        String[] header = {"endereco"};
         String[] enderecoAConverter = {this.endereco.toString()};
 
         List<String[]> lista = new ArrayList<>();

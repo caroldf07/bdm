@@ -13,6 +13,6 @@ public class Executavel {
                 "Rua Oseias Rocha Ramalho", "49", "São Carlos", "SP"), "severa", "dengue", "sul",
                 "");
         OcorrenciaDao ocorrenciaDao = new OcorrenciaDao();
-        ocorrenciaDao.registrarOcorrencia(ocorrenciaDto);
+        System.out.println(ocorrenciaDao.registrarOcorrencia(ocorrenciaDto));
     }
 }

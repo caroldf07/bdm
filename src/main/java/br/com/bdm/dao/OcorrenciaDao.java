@@ -20,7 +20,7 @@ public class OcorrenciaDao {
             preparedStatement = connection.prepareStatement("INSERT INTO T_CONSULTA_OCORRENCIA" +
                     "(cd_ocorrencia, " +
                     "dt_inicio_ocorrencia, dt_fim_ocorrencia, latitude, longitude, cd_doenca, " +
-                    "cd_regiao, gravidade, comorbidade) VALUES (nextval(cd_ocorrencia), ?, ?, ?, " +
+                    "cd_regiao, gravidade, comorbidade) VALUES (default, ?, ?, ?, " +
                     "?, ?, ?,?, ?)");
 
             preparedStatement.setDate(1, Date.valueOf(ocorrencia.getDataInicio().toLocalDate()));
@@ -28,9 +28,9 @@ public class OcorrenciaDao {
             preparedStatement.setDouble(3, ocorrencia.getLatitude());
             preparedStatement.setDouble(4, ocorrencia.getLongitude());
             //TODO: fazer código com a query de busca da doença
-            preparedStatement.setInt(5, ocorrencia.getDoenca().getId());
+            preparedStatement.setInt(5, 1);
             //TODO: fazer código com a query de busca da região
-            preparedStatement.setInt(6, ocorrencia.getRegiao().getId());
+            preparedStatement.setInt(6, 1);
             preparedStatement.setString(7, ocorrencia.getGravidade());
             preparedStatement.setString(8, ocorrencia.getComorbidade());
 
