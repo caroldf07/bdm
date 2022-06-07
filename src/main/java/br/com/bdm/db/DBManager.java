@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DBManager {
     private static DBManager instance;
 
-    public DBManager() {
+    private DBManager() {
     }
 
     public static DBManager getInstance() {
