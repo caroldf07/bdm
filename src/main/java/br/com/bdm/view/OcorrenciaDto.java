@@ -1,7 +1,6 @@
 package br.com.bdm.view;
 
 import br.com.bdm.model.*;
-import br.com.bdm.script.ScriptConversaoEndereco;
 import com.opencsv.CSVWriter;
 
 import java.io.FileWriter;
@@ -9,6 +8,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static br.com.bdm.script.ScriptConversaoEndereco.executarScript;
 
 public class OcorrenciaDto {
     private LocalDateTime dataInicio;
@@ -57,27 +58,28 @@ public class OcorrenciaDto {
     }
 
     private String converterEndereco() {
-        List<String[]> csv = criarCsv();
-        String path = System.getProperty("user.dir");
-        try (CSVWriter writer = new CSVWriter(new FileWriter(path +
-                "\\src\\main\\resources\\converter.csv"))) {
-            writer.writeAll(csv);
-            ScriptConversaoEndereco.executarScript();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        criarCsv();
+        executarScript();
+
         //TODO: implementar o retorno do script com o endereco convertido em latitude e longitude
         return "";
     }
 
-    private List<String[]> criarCsv() {
+    private void criarCsv() {
         String[] header = {"endereço"};
         String[] enderecoAConverter = {this.endereco.toString()};
 
         List<String[]> lista = new ArrayList<>();
         lista.add(header);
         lista.add(enderecoAConverter);
-        return lista;
+
+        String path = System.getProperty("user.dir");
+        try (CSVWriter writer = new CSVWriter(new FileWriter(path +
+                "\\src\\main\\resources\\converter.csv"))) {
+            writer.writeAll(lista);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public LocalDateTime getDataInicio() {
