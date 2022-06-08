@@ -2,7 +2,6 @@ package br.com.bdm.model;
 
 public class Regiao {
     private String nome;
-    //TODO:Alterar no diagrama de classe
     private int id;
 
     public String getNome() {

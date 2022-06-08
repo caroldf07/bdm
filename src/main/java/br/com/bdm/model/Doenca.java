@@ -2,7 +2,6 @@ package br.com.bdm.model;
 
 public class Doenca {
 
-    //TODO:Alterar no diagrama de classe
     private int id;
 
     private String nome;

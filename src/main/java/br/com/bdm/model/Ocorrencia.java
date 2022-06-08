@@ -6,7 +6,6 @@ public class Ocorrencia {
     private int id;
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
-    //TODO: corrigir no diagrama de classe o tipo de latitude e longitude
     private double latitude;
     private double longitude;
     private String gravidade;
