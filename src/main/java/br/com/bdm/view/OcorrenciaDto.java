@@ -1,6 +1,7 @@
 package br.com.bdm.view;
 
 import br.com.bdm.model.*;
+import br.com.bdm.script.ScriptConversaoEndereco;
 import com.opencsv.CSVWriter;
 
 import java.io.FileWriter;
@@ -57,9 +58,11 @@ public class OcorrenciaDto {
 
     private String converterEndereco() {
         List<String[]> csv = criarCsv();
-        try (CSVWriter writer = new CSVWriter(new FileWriter("C:\\Users\\carol\\Desktop\\bdmv2" +
+        String path = System.getProperty("user.dir");
+        try (CSVWriter writer = new CSVWriter(new FileWriter(path +
                 "\\src\\main\\resources\\converter.csv"))) {
             writer.writeAll(csv);
+            ScriptConversaoEndereco.executarScript();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
