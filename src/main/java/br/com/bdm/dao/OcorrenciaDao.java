@@ -17,20 +17,25 @@ public class OcorrenciaDao {
     public String registrarOcorrencia(OcorrenciaDto ocorrenciaDto) {
         Ocorrencia ocorrencia = ocorrenciaDto.toModel();
         try {
-            preparedStatement = connection.prepareStatement("INSERT INTO T_CONSULTA_OCORRENCIA" +
-                    "(cd_ocorrencia, " +
-                    "dt_inicio_ocorrencia, dt_fim_ocorrencia, latitude, longitude, cd_doenca, " +
-                    "cd_regiao, gravidade, comorbidade) VALUES (default, ?, ?, ?, " +
-                    "?, ?, ?,?, ?)");
+            preparedStatement = connection.prepareStatement(
+                    "INSERT INTO T_CONSULTA_OCORRENCIA(cd_ocorrencia, " +
+                            "dt_inicio_ocorrencia, " +
+                            "dt_fim_ocorrencia, " +
+                            "latitude, " +
+                            "longitude, " +
+                            "cd_doenca, " +
+                            "cd_regiao," +
+                            " gravidade," +
+                            " comorbidade) VALUES (default, ?, ?, ?, ?, " +
+                            "(SELECT cd_doenca FROM T_DOENCA WHERE nm_doenca = ?), (SELECT " +
+                            "cd_regiao FROM T_REGIAO WHERE nm_regiao = ?), ?, ?)");
 
             preparedStatement.setDate(1, Date.valueOf(ocorrencia.getDataInicio().toLocalDate()));
             preparedStatement.setDate(2, Date.valueOf(ocorrencia.getDataFim().toLocalDate()));
             preparedStatement.setDouble(3, ocorrencia.getLatitude());
             preparedStatement.setDouble(4, ocorrencia.getLongitude());
-            //TODO: fazer código com a query de busca da doença
-            preparedStatement.setInt(5, 1);
-            //TODO: fazer código com a query de busca da região
-            preparedStatement.setInt(6, 1);
+            preparedStatement.setString(5, ocorrencia.getDoenca().getNome().toUpperCase());
+            preparedStatement.setString(6, ocorrencia.getRegiao().getNome().toUpperCase());
             preparedStatement.setString(7, ocorrencia.getGravidade());
             preparedStatement.setString(8, ocorrencia.getComorbidade());
 

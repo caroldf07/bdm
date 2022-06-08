@@ -1,10 +1,11 @@
 package br.com.bdm.view;
 
 import br.com.bdm.model.*;
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.bean.CsvToBeanBuilder;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class OcorrenciaDto {
     private String doenca;
     private String regiao;
     private String comorbidade;
+    String path = System.getProperty("user.dir");
 
     public OcorrenciaDto(LocalDateTime dataInicio, LocalDateTime dataFim, Endereco endereco,
                          String gravidade, String doenca, String regiao, String comorbidade) {
@@ -43,12 +45,11 @@ public class OcorrenciaDto {
     }
 
     public Ocorrencia toModel() {
-        String coordenadas = this.converterEndereco();
-
-        Double latitude = Double.parseDouble("0.0");
-        Double longitude = Double.parseDouble("0.0");
-
-        //TODO:Terminar de implementar a lógica da conversão
+        this.converterEndereco();
+        List<Coordenadas> dados = this.recuperarCoordenadas();
+        String[] coordenadas = dados.get(0).toString().split(",");
+        double latitude = Double.parseDouble(coordenadas[0]);
+        double longitude = Double.parseDouble(coordenadas[1]);
 
         if (this.dataFim == null) {
             this.dataFim = this.dataInicio;
@@ -57,12 +58,22 @@ public class OcorrenciaDto {
                 new Doenca(this.doenca), new Regiao(this.regiao), this.comorbidade);
     }
 
-    private String converterEndereco() {
+    private void converterEndereco() {
         criarCsv();
         executarScript();
+    }
 
-        //TODO: implementar o retorno do script com o endereco convertido em latitude e longitude
-        return "";
+    private List<Coordenadas> recuperarCoordenadas() {
+        List<Coordenadas> dados = new ArrayList<>();
+
+        try (CSVReader reader = new CSVReader(new FileReader(path +
+                "\\src\\main\\resources\\coordenadas.csv"))) {
+            dados = new CsvToBeanBuilder<Coordenadas>(reader).withType(Coordenadas.class).build()
+                                                             .parse();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return dados;
     }
 
     private void criarCsv() {
@@ -73,7 +84,6 @@ public class OcorrenciaDto {
         lista.add(header);
         lista.add(enderecoAConverter);
 
-        String path = System.getProperty("user.dir");
         try (CSVWriter writer = new CSVWriter(new FileWriter(path +
                 "\\src\\main\\resources\\converter.csv"))) {
             writer.writeAll(lista);

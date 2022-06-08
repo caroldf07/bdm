@@ -10,27 +10,27 @@
 
 CREATE TABLE t_consulta_ocorrencia
 (
-    cd_ocorrencia        CHAR PRIMARY KEY NOT NULL,
-    dt_inicio_ocorrencia DATE             NOT NULL,
-    dt_fim_ocorrencia    DATE             NOT NULL,
-    latitude             NUMERIC,
-    longitude            NUMERIC,
-    cd_doenca            CHAR,
-    cd_regiao            CHAR             NOT NULL,
+    cd_ocorrencia        SERIAL PRIMARY KEY,
+    dt_inicio_ocorrencia DATE NOT NULL,
+    dt_fim_ocorrencia    DATE NOT NULL,
+    latitude             NUMERIC(9,7),
+    longitude            NUMERIC(9,7),
+    cd_doenca            INT NOT NULL,
+    cd_regiao            INT NOT NULL,
     gravidade            VARCHAR(30),
     comorbidade          VARCHAR(30)
 );
 
 CREATE TABLE t_doenca
 (
-    cd_doenca CHAR PRIMARY KEY NOT NULL,
-    nm_doenca VARCHAR(15)      NOT NULL
+    cd_doenca SERIAL PRIMARY KEY,
+    nm_doenca VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE t_regiao
 (
-    cd_regiao CHAR PRIMARY KEY NOT NULL,
-    nm_regiao VARCHAR(15)      NOT NULL
+    cd_regiao SERIAL PRIMARY KEY,
+    nm_regiao VARCHAR(15) NOT NULL
 );
 
 ALTER TABLE t_consulta_ocorrencia
