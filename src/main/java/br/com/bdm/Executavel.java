@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 public class Executavel {
     public static void main(String[] args) {
         /*Executar o método insert*/
-        OcorrenciaDto ocorrenciaDto = new OcorrenciaDto(LocalDateTime.now(),  new Endereco(
-                "Rua Oseias Rocha Ramalho", "49", "São Carlos", "SP"), "severa", "dengue", "norte",
+        OcorrenciaDto ocorrenciaDto = new OcorrenciaDto(LocalDateTime.now(), new Endereco(
+                "Rua Oseias Rocha Ramalho", "49", "São Carlos", "SP"),
+                "severa", "dengue", "norte",
                 "");
         OcorrenciaDao ocorrenciaDao = new OcorrenciaDao();
         System.out.println(ocorrenciaDao.registrarOcorrencia(ocorrenciaDto));
